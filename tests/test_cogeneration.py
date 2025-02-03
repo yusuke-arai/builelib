@@ -2,13 +2,13 @@ import pandas as pd
 import csv
 import pytest
 import json
-import xlrd
+import openpyxl
 
 import airconditioning
 import ventilation
 import lighting
 import hotwatersupply
-import elevetor
+import elevator
 import photovoltaic
 import other_energy
 import cogeneration
@@ -36,9 +36,9 @@ def read_testcasefile(filename):
     '''
     テストケースファイルを読み込む関数
     '''
-    wb = xlrd.open_workbook(filename)
-    sheet = wb.sheet_by_name("Sheet1")
-    testdata = [sheet.row_values(row) for row in range(sheet.nrows)]
+    wb = openpyxl.load_workbook(filename)
+    sheet = wb["Sheet1"]
+    testdata = [row for row in sheet.iter_rows(values_only=True) if row[0]]
 
     return testdata
 

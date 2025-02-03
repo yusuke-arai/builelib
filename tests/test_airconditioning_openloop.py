@@ -3,13 +3,13 @@ from builelib import airconditioning
 from builelib import commons as bc
 import pytest
 import json
-import xlrd
+import openpyxl
 
 ### テストファイル名 ###
 # 辞書型 テスト名とファイル名
 
 testcase_dict = {
-    "basic": "./tests/airconditioning_gshp_openloop/★地中熱クローズループ_テストケース一覧.xlsx",
+    "basic": "./tests/airconditioning_gshp_openloop/★地中熱クローズループ_テストケース一覧.xlsx",
 }
 
 
@@ -28,9 +28,9 @@ def read_testcasefile(filename):
     '''
     テストケースファイルを読み込む関数
     '''
-    wb = xlrd.open_workbook(filename)
-    sheet = wb.sheet_by_name("Sheet1")
-    testdata = [sheet.row_values(row) for row in range(sheet.nrows)]
+    wb = openpyxl.load_workbook(filename)
+    sheet = wb["Sheet1"]
+    testdata = [row for row in sheet.iter_rows(values_only=True) if row[0]]
 
     return testdata
 
